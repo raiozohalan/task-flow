@@ -10,14 +10,13 @@ export const router = createBrowserRouter([
     children: [
       {
         element: <HomePage />,
-        index: true
+        index: true,
+        path: "/home/*"
       },
       {
-        path: "/tasks",
+        path: "/tasks/*",
         element: <Task />
-      }
+      },
     ]
   },
 ]);
-
-console.log(">>>router",router)
