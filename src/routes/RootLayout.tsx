@@ -6,7 +6,7 @@ const RootLayout = () => {
   return (
     <div className={classNames("w-screen h-screen","flex divide-x-[1px] divide-gray-800")}>
       <Sidebar/>
-      <div className="flex-1">
+      <div className="flex-1 px-12 py-14">
         <Outlet/>
       </div>
     </div>
