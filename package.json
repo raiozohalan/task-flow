@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/react": "^2.1.10",
     "@reduxjs/toolkit": "^2.3.0",
     "autoprefixer": "^10.4.20",
     "feather-icons-react": "^0.7.0",
