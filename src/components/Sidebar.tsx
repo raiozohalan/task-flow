@@ -2,7 +2,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import classNames from "../utils/classNames";
 import { Edit } from "react-feather";
 import { useMemo } from "react";
-import CreateTask from "./CreateTask";
+import CreateTask from "./Task/CreateTask";
 
 const SIDEBAR_LINKS: {
   name: string;
