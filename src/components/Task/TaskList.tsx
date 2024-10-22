@@ -22,21 +22,21 @@ const DUMMY_DATA: Task[] = [
     title: "Task 1",
     description: LOREM_IPSUM,
     status: TaskStatuses.PENDING,
-    dueDate: new Date(),
+    due_date: new Date(),
   },
   {
     id: "task-2",
     title: "Task 2",
     description: LOREM_IPSUM,
     status: TaskStatuses.PENDING,
-    dueDate: new Date(),
+    due_date: new Date(),
   },
   {
     id: "task-3",
     title: "Task 3",
     description: LOREM_IPSUM,
     status: TaskStatuses.PENDING,
-    dueDate: new Date(),
+    due_date: new Date(),
   },
 ];
 

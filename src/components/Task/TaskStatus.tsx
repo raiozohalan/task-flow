@@ -7,7 +7,7 @@ import { DropdownItemsProps, DropwdownProps } from "../base/dropdown/interface";
 
 interface TaskStatusProps {
   status: TaskStatuses;
-  onSelect: Dispatch<SetStateAction<TaskStatuses>>;
+  onSelect: Dispatch<SetStateAction<TaskStatuses>> | ((status: TaskStatuses) => void);
   className?: DropwdownProps["className"];
 
   showStatusColor?: boolean;

@@ -31,7 +31,7 @@ const TaskItem = (props: TaskItemProps) => {
           <h2 className="text-lg font-bold">{task.title}</h2>
 
           <span className="text-xs text-gray-500">
-            {moment(task.dueDate).format("MMM DD YYYY")}
+            {moment(task.due_date).format("MMM DD YYYY")}
           </span>
         </div>
         <div className="flex items-center justify-between lg:justify-end gap-1.5">

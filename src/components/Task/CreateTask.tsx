@@ -13,12 +13,15 @@ import { useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import classNames from "../../utils/classNames";
 import TaskStatus from "./TaskStatus";
-import { TaskStatuses } from "./interface.d";
+import { Task, TaskStatuses } from "./interface.d";
+import { useAppDispatch } from "../../redux/hook";
+import { slices } from "../../redux";
 
 const CreateTask = () => {
+  const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const [status, setStatus] = useState<TaskStatuses>(TaskStatuses.TO_DO);
+  const [task, setTask] = useState<Partial<Task>>({});
 
   const showCreateTask = useMemo(() => {
     return pathname.includes("create-task");
@@ -28,8 +31,18 @@ const CreateTask = () => {
     navigate(pathname.replace("/create-task", ""));
   };
 
+  const handleOnChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setTask({
+      ...task,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const handleSubmit = () => {
-    // Handle form submission
+    dispatch(slices.tasks.actions.addNewTask(task as Task));
+    handleCloseModal();
   };
 
   return (
@@ -61,6 +74,7 @@ const CreateTask = () => {
                   "ring-1 ring-gray-300 data-[hover]:ring-gray-500 ",
                   "data-[hover]:bg-gray-300/80 data-[focus]:ring-gray-500 data-[focus]:outline-none"
                 )}
+                onChange={handleOnChange}
               />
             </Field>
 
@@ -69,12 +83,14 @@ const CreateTask = () => {
                 Details
               </Label>
               <Textarea
+                name="description"
                 className={classNames(
                   "mt-2 block w-full resize-none rounded-lg border-none bg-gray-200 py-1.5 px-3 text-sm/6 text-gray-900",
                   "ring-1 ring-gray-300 data-[hover]:ring-gray-500 ",
                   "data-[hover]:bg-gray-300/80 data-[focus]:ring-gray-500 data-[focus]:outline-none"
                 )}
                 rows={3}
+                onChange={handleOnChange}
               />
             </Field>
             <div className="w-full flex items-center justify-stretch gap-8">
@@ -84,8 +100,10 @@ const CreateTask = () => {
                 </Label>
                 <div className="relative">
                   <TaskStatus
-                    status={status}
-                    onSelect={setStatus}
+                    status={task?.status}
+                    onSelect={(status: TaskStatuses) =>
+                      setTask((prev) => ({ ...prev, status }))
+                    }
                     className={{
                       button: classNames(
                         "mt-2 block w-full appearance-none rounded-lg border-none bg-gray-200 py-1.5 px-3 text-sm/6 text-gray-900",
@@ -107,6 +125,7 @@ const CreateTask = () => {
                     "ring-1 ring-gray-300 data-[hover]:ring-gray-500 ",
                     "data-[hover]:bg-gray-300/80"
                   )}
+                  onChange={handleOnChange}
                 />
               </Field>
             </div>
@@ -118,6 +137,7 @@ const CreateTask = () => {
                 Cancel
               </button>
               <button
+                type="submit"
                 className="text-white text-sm font-semibold bg-blue-600 hover:bg-blue-500"
                 onClick={handleSubmit}
               >
