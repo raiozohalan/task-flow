@@ -12,14 +12,13 @@ import {
 import { useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import classNames from "../../utils/classNames";
-import Dropdown from "../base/dropdown";
-import { DropdownItemsProps } from "../base/dropdown/interface";
-import { TASK_STATUSES } from "./statuts.const";
+import TaskStatus from "./TaskStatus";
+import { TaskStatuses } from "./interface.d";
 
 const CreateTask = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const [status, setStatus] = useState<DropdownItemsProps | null>(null);
+  const [status, setStatus] = useState<TaskStatuses>(TaskStatuses.TO_DO);
 
   const showCreateTask = useMemo(() => {
     return pathname.includes("create-task");
@@ -28,19 +27,6 @@ const CreateTask = () => {
   const handleCloseModal = () => {
     navigate(pathname.replace("/create-task", ""));
   };
-
-  const selectedStatus = useMemo(() => {
-    if (!status) return "";
-
-    const { Icon, label, iconColor = "" } = status;
-
-    return (
-      <span className="flex items-center gap-2">
-        {Icon ? <Icon className={classNames("size-4", iconColor)} /> : null}
-        {label}
-      </span>
-    );
-  }, [status]);
 
   const handleSubmit = () => {
     // Handle form submission
@@ -97,18 +83,7 @@ const CreateTask = () => {
                   Status
                 </Label>
                 <div className="relative">
-                  <Dropdown
-                    label={selectedStatus}
-                    items={TASK_STATUSES}
-                    showIcon={false}
-                    className={{
-                      button: classNames(
-                        "mt-2 block w-full appearance-none rounded-lg border-none bg-gray-200 py-1.5 px-3 text-sm/6 text-gray-900",
-                        "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-gray-400"
-                      ),
-                    }}
-                    onSelect={(params: DropdownItemsProps) => setStatus(params)}
-                  />
+                  <TaskStatus status={status} onSelect={setStatus} />
                 </div>
               </Field>
               <Field className="flex-1">
