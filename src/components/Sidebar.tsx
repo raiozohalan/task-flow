@@ -34,7 +34,7 @@ const Sidebar = () => {
   return (
     <div
       className={classNames(
-        "flex flex-col gap-y-2",
+        "flex-none flex flex-col gap-y-2",
         "w-[248px] px-4 py-8 bg-[#242424]",
         "divide-y-[1px] divide-gray-600"
       )}
