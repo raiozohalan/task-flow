@@ -19,9 +19,16 @@ const TaskItem = (props: TaskItemProps) => {
   const dispatch = useAppDispatch();
   const { task } = props;
 
-  const handleUpdateStatus = useCallback((status: TaskStatuses) => {
-    dispatch(slices.tasks.actions.updateTask({ ...task, status }));
-  },[task, dispatch]);
+  const handleUpdateStatus = useCallback(
+    (status: TaskStatuses) => {
+      dispatch(slices.tasks.actions.updateTask({ ...task, status }));
+    },
+    [task, dispatch]
+  );
+
+  const handleDeleteTask = useCallback(() => {
+    dispatch(slices.tasks.actions.deleteTask({ taskID: task?.id }));
+  }, [task, dispatch]);
 
   return (
     <div
@@ -57,7 +64,7 @@ const TaskItem = (props: TaskItemProps) => {
             <button className={BUTTON_CLASSNAMES}>
               <Edit2 size={14} />
             </button>
-            <button className={BUTTON_CLASSNAMES}>
+            <button className={BUTTON_CLASSNAMES} onClick={handleDeleteTask}>
               <Trash2 size={14} />
             </button>
           </div>
