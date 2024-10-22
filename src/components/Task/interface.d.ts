@@ -11,6 +11,6 @@ export interface Task {
   id: string;
   title: string;
   description?: string;
-  dueDate?: Date;
+  due_date?: Date;
   status?: TaskStatus;
 }
