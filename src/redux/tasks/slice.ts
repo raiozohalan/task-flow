@@ -23,7 +23,8 @@ const slice = createSlice({
     },
     updateTask: (state, { payload }: PayloadAction<Task>) => {
       state.list = state.list.map((task) => {
-        if (task.id !== payload.id) return { ...task, ...payload };
+        if (task.id === payload.id) return { ...task, ...payload };
+        
         return task;
       });
     },

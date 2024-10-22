@@ -7,13 +7,15 @@ import { DropdownItemsProps, DropwdownProps } from "../base/dropdown/interface";
 
 interface TaskStatusProps {
   status: TaskStatuses;
-  onSelect: Dispatch<SetStateAction<TaskStatuses>> | ((status: TaskStatuses) => void);
+  onSelect:
+    | Dispatch<SetStateAction<TaskStatuses>>
+    | ((status: TaskStatuses) => void);
   className?: DropwdownProps["className"];
 
   showStatusColor?: boolean;
 }
 const TaskStatus = (props: TaskStatusProps) => {
-  const { status, onSelect, className = "", showStatusColor } = props;
+  const { status, onSelect, className = {}, showStatusColor } = props;
 
   const selectedStatus = useMemo(() => {
     if (!status) return "";
@@ -46,9 +48,7 @@ const TaskStatus = (props: TaskStatusProps) => {
       label={selectedStatus}
       items={TASK_STATUSES}
       showIcon={false}
-      className={{
-        ...className,
-      }}
+      className={className}
       onSelect={handleOnSelect}
     />
   );

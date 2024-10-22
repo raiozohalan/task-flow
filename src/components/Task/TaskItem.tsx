@@ -3,7 +3,9 @@ import classNames from "../../utils/classNames";
 import { Task, TaskStatuses } from "./interface";
 import TaskStatus from "./TaskStatus";
 import { Edit2, Trash2 } from "react-feather";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { useAppDispatch } from "../../redux/hook";
+import { slices } from "../../redux";
 
 interface TaskItemProps {
   task: Task;
@@ -14,8 +16,12 @@ const BUTTON_CLASSNAMES = classNames(
   "bg-transparent text-gray-500 hover:bg-gray-300 hover:border-gray-400 hover:text-black"
 );
 const TaskItem = (props: TaskItemProps) => {
+  const dispatch = useAppDispatch();
   const { task } = props;
-  const [status, setStatus] = useState<TaskStatuses>(task.status);
+
+  const handleUpdateStatus = useCallback((status: TaskStatuses) => {
+    dispatch(slices.tasks.actions.updateTask({ ...task, status }));
+  },[task, dispatch]);
 
   return (
     <div
@@ -36,12 +42,12 @@ const TaskItem = (props: TaskItemProps) => {
         </div>
         <div className="flex items-center justify-between lg:justify-end gap-1.5">
           <TaskStatus
-            status={status}
-            onSelect={setStatus}
+            status={task.status}
+            onSelect={handleUpdateStatus}
             showStatusColor
             className={{
               button: classNames(
-                "block w-fit lg:full appearance-none rounded-lg border-none ring-0 bg-transparent py-0.5 px-2 text-sm/6 text-gray-900",
+                "block w-fit appearance-none rounded-lg border-none ring-0 bg-transparent py-0.5 px-2 text-sm/6 text-gray-900",
                 "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-gray-400"
               ),
             }}

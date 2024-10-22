@@ -22,7 +22,7 @@ export default function Dropdown(props: DropwdownProps) {
       <MenuButton
         className={classNames(
           "inline-flex items-center gap-2 rounded-md",
-          "py-1.5 px-3 text-sm/6 font-semibold ring-1 ring-gray-300",
+          "text-sm/6 font-semibold",
           "data-[hover]:ring-gray-500 data-[hover]:bg-gray-300/80 data-[open]:bg-gray-300/80",
           label ? "text-black" : "text-gray-400",
           className?.button ?? ""

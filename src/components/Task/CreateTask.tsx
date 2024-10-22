@@ -107,7 +107,8 @@ const CreateTask = () => {
                     className={{
                       button: classNames(
                         "mt-2 block w-full appearance-none rounded-lg border-none bg-gray-200 py-1.5 px-3 text-sm/6 text-gray-900",
-                        "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-gray-400"
+                        "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-gray-400",
+                        "ring-1 ring-gray-300"
                       ),
                     }}
                   />
