@@ -10,7 +10,7 @@ const SIDEBAR_LINKS: {
 }[] = [
   {
     name: "Home",
-    path: "/home",
+    path: "/",
   },
   {
     name: "Tasks",
@@ -24,7 +24,10 @@ const Sidebar = () => {
   const generateCreateTaskPath = useMemo(() => {
     if (pathname.includes("create-task")) {
       return pathname;
+    } else if (pathname === "/") {
+      return "/create-task";
     }
+
     return `${pathname}/create-task`;
   }, [pathname]);
 
@@ -49,13 +52,16 @@ const Sidebar = () => {
           <NavLink
             to={link?.path}
             key={link?.path}
-            className={({ isActive }) =>
-              classNames(
+            className={({ isActive }) => {
+              let isActivePath =
+                pathname.replace("create-task", "") === link.path;
+
+              return classNames(
                 "w-full px-4 py-2 rounded-md text-white",
-                isActive ? "bg-blue-700/30" : "bg-transparent",
+                isActivePath || isActive ? "bg-blue-700/30" : "bg-transparent",
                 "hover:bg-blue-700/50 hover:text-white"
-              )
-            }
+              );
+            }}
           >
             {link?.name}
           </NavLink>

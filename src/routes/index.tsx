@@ -11,12 +11,16 @@ export const router = createBrowserRouter([
       {
         element: <HomePage />,
         index: true,
-        path: "/home/*"
+        path: "/",
+      },
+      {
+        element: <HomePage />,
+        path: "/*",
       },
       {
         path: "/tasks/*",
-        element: <Task />
+        element: <Task />,
       },
-    ]
+    ],
   },
 ]);
