@@ -1,6 +1,6 @@
 const Task = () => {
   return (
-    <div>Task</div>
+    <div className="grid grid-cols-3 justify-center gap-4">Task</div>
   )
 }
 
