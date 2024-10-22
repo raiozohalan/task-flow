@@ -14,7 +14,7 @@ const SIDEBAR_LINKS: {
   },
   {
     name: "Tasks",
-    path: "/Tasks",
+    path: "/tasks",
   },
 ];
 
