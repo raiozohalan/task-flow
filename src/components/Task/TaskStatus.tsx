@@ -19,7 +19,7 @@ const TaskStatus = (props: TaskStatusProps) => {
       Icon,
       label,
       iconColor = "",
-    } = TASK_STATUSES.find((task) => task.label === status) || {};
+    } = TASK_STATUSES.find((task) => task.label === status) || TASK_STATUSES[0];
 
     return (
       <span className="flex items-center gap-2">
