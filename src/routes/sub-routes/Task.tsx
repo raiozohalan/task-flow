@@ -1,7 +1,11 @@
+import TaskList from "../../components/Task/TaskList";
+
 const Task = () => {
   return (
-    <div className="grid grid-cols-3 justify-center gap-4">Task</div>
-  )
-}
+    <div className="max-w-full">
+      <TaskList />
+    </div>
+  );
+};
 
-export default Task
+export default Task;
