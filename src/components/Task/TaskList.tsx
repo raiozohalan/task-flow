@@ -2,7 +2,9 @@ import { CheckSquare, Grid, List } from "react-feather";
 import classNames from "../../utils/classNames";
 import { Task, TaskStatuses } from "./interface.d";
 import TaskItem from "./TaskItem";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useAppSelector } from "../../redux/hook";
+import { slices } from "../../redux";
 
 export type TaskDisplay = "list" | "grid";
 export interface TaskListProps {
@@ -59,7 +61,8 @@ const TABS_CLASSNAMES = classNames(
 );
 
 const TaskList = (props: TaskListProps) => {
-  const { data = DUMMY_DATA, display = "list" } = props;
+  const { display = "list" } = props;
+  const taskList = useAppSelector(slices.tasks.selectors.selectTaskList);
   const [itemsDisplay, setItemsDisplay] = useState<TaskDisplay>(display);
 
   const displayOptions = Object.keys(TASK_DISPLAY) as TaskDisplay[];
@@ -67,6 +70,10 @@ const TaskList = (props: TaskListProps) => {
   useEffect(() => {
     setItemsDisplay(display);
   }, [display]);
+
+  const taskData = useMemo(() => {
+    return taskList;
+  }, [taskList]);
 
   return (
     <>
@@ -95,9 +102,13 @@ const TaskList = (props: TaskListProps) => {
           "max-w-full min-w-full"
         )}
       >
-        {data.map((task: Task) => (
-          <TaskItem key={task.id} task={task} />
-        ))}
+        {taskData?.length ? (
+          taskData.map((task: Task) => <TaskItem key={task.id} task={task} />)
+        ) : (
+          <p className="py-10 flex items-center justify-center text-gray-500">
+            No tasks found
+          </p>
+        )}
       </div>
     </>
   );
