@@ -15,6 +15,9 @@ const slice = createSlice({
     setTaskList: (state, { payload }: PayloadAction<Task[]>) => {
       state.list = payload;
     },
+    setSelectedTask: (state, { payload }: PayloadAction<Task | null>) => {
+      state.selectedTask = payload;
+    },
     addNewTask: (state, { payload }: PayloadAction<Task>) => {
       state.list = [...state.list, payload];
     },

@@ -3,9 +3,10 @@ import classNames from "../../utils/classNames";
 import { Task, TaskStatuses } from "./interface";
 import TaskStatus from "./TaskStatus";
 import { Edit2, Trash2 } from "react-feather";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useAppDispatch } from "../../redux/hook";
 import { slices } from "../../redux";
+import { useLocation, useNavigate } from "react-router";
 
 interface TaskItemProps {
   task: Task;
@@ -17,6 +18,9 @@ const BUTTON_CLASSNAMES = classNames(
 );
 const TaskItem = (props: TaskItemProps) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
   const { task } = props;
 
   const handleUpdateStatus = useCallback(
@@ -28,6 +32,12 @@ const TaskItem = (props: TaskItemProps) => {
 
   const handleDeleteTask = useCallback(() => {
     dispatch(slices.tasks.actions.deleteTask({ taskID: task?.id }));
+  }, [task, dispatch]);
+
+  const handleEditTask = useCallback(() => {
+    dispatch(slices.tasks.actions.setSelectedTask(task));
+    const redirectTo = pathname.replace("create-task", "update-task");
+    navigate(`${redirectTo}/update-task`);
   }, [task, dispatch]);
 
   return (
@@ -61,7 +71,7 @@ const TaskItem = (props: TaskItemProps) => {
           />
           <hr className="hidden lg:block h-4 border-[0.5px] border-gray-400/40" />
           <div className="relative flex gap-1 items-center">
-            <button className={BUTTON_CLASSNAMES}>
+            <button className={BUTTON_CLASSNAMES} onClick={handleEditTask}>
               <Edit2 size={14} />
             </button>
             <button className={BUTTON_CLASSNAMES} onClick={handleDeleteTask}>

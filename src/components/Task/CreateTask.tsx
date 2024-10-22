@@ -9,27 +9,46 @@ import {
   Legend,
   Textarea,
 } from "@headlessui/react";
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import classNames from "../../utils/classNames";
 import TaskStatus from "./TaskStatus";
 import { Task, TaskStatuses } from "./interface.d";
-import { useAppDispatch } from "../../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { slices } from "../../redux";
+import { v4 } from "uuid";
+import moment from "moment";
 
 const CreateTask = () => {
   const dispatch = useAppDispatch();
-  const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const selectedTask = useAppSelector(
+    slices.tasks.selectors.selectSelectedTask
+  );
+
   const [task, setTask] = useState<Partial<Task>>({});
+
+  useEffect(() => {
+    setTask(selectedTask ?? {});
+  }, [selectedTask]);
 
   const showCreateTask = useMemo(() => {
     return pathname.includes("create-task");
   }, [pathname]);
 
-  const handleCloseModal = () => {
-    navigate(pathname.replace("/create-task", ""));
-  };
+  const showUpdateTask = useMemo(() => {
+    return pathname.includes("update-task");
+  }, [pathname]);
+
+  const handleCloseModal = useCallback(() => {
+    const redirectTo = pathname
+      .replace("/create-task", "")
+      .replace("/update-task", "");
+    setTask({});
+    dispatch(slices.tasks.actions.setSelectedTask(null));
+    navigate(redirectTo);
+  }, [pathname]);
 
   const handleOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -40,14 +59,18 @@ const CreateTask = () => {
     });
   };
 
-  const handleSubmit = () => {
-    dispatch(slices.tasks.actions.addNewTask(task as Task));
+  const handleSubmit = useCallback(() => {
+    if (task?.id) {
+      dispatch(slices.tasks.actions.updateTask(task as Task));
+    } else {
+      dispatch(slices.tasks.actions.addNewTask({ id: v4(), ...task } as Task));
+    }
     handleCloseModal();
-  };
+  }, [task, dispatch]);
 
   return (
     <Dialog
-      open={showCreateTask}
+      open={showCreateTask || showUpdateTask}
       onClose={handleCloseModal}
       className="relative z-50 text-black"
     >
@@ -69,6 +92,7 @@ const CreateTask = () => {
               </Label>
               <Input
                 name="title"
+                value={task?.title}
                 className={classNames(
                   "mt-2 block w-full rounded-lg border-none bg-gray-200 py-1.5 px-3 text-sm/6 text-gray-900",
                   "ring-1 ring-gray-300 data-[hover]:ring-gray-500 ",
@@ -83,6 +107,7 @@ const CreateTask = () => {
                 Details
               </Label>
               <Textarea
+                value={task?.description}
                 name="description"
                 className={classNames(
                   "mt-2 block w-full resize-none rounded-lg border-none bg-gray-200 py-1.5 px-3 text-sm/6 text-gray-900",
@@ -119,6 +144,11 @@ const CreateTask = () => {
                   Due Date
                 </Label>
                 <Input
+                  value={
+                    task?.due_date
+                      ? moment(task.due_date).format("YYYY-MM-DD")
+                      : ""
+                  }
                   name="due_date"
                   type="date"
                   className={classNames(
