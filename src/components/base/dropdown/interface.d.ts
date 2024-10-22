@@ -1,4 +1,4 @@
-import { MenuProps } from "@headlessui/react";
+import { MenuItemsProps, MenuProps } from "@headlessui/react";
 
 export interface DropdownItemsProps {
     Icon?: React.JSXElementConstructor<any>;
@@ -16,4 +16,5 @@ export interface DropwdownProps extends MenuProps {
         items?: string;
     };
     onSelect?: (params: DropdownItemsProps) => void;
+    anchor?: MenuItemsProps["anchor"];
 }

@@ -14,6 +14,7 @@ export default function Dropdown(props: DropwdownProps) {
       items: "",
     },
     onSelect = () => {},
+    anchor={},
   } = props;
 
   return (
@@ -33,10 +34,7 @@ export default function Dropdown(props: DropwdownProps) {
 
       <MenuItems
         transition
-        anchor={{
-          to: "bottom start",
-          gap: 8,
-        }}
+        anchor={anchor}
         className={classNames(
           "w-52 rounded-md",
           "bg-gray-50 text-sm/6 text-black shadow-2xl ring-2 ring-gray-400",
